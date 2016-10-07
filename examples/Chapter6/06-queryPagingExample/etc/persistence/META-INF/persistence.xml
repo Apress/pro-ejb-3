@@ -1,0 +1,10 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+    <persistence-unit name="QueryPaging">
+        <jta-data-source>jdbc/queryPagingDB</jta-data-source>
+        <properties>
+            <property name="toplink.platform.class.name" 
+                      value="oracle.toplink.essentials.platform.database.DerbyPlatform"/>
+            <property name="toplink.logging.level" value="FINE"/>
+        </properties>
+    </persistence-unit>
+</persistence>

@@ -1,0 +1,1 @@
+These libraries are needed by the examples for Chapter 13: Testing.  They are automatically copied to the necessary location by the install script or referenced in the classpath in config/common.properties.

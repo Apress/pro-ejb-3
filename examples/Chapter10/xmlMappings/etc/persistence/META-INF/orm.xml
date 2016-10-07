@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_1_0.xsd"
+    version="1.0">
+
+    <persistence-unit-metadata>
+        <xml-mapping-metadata-complete/>
+        <persistence-unit-defaults>
+            <!--schema>HR</schema-->
+            <access>FIELD</access>
+            <cascade-persist/>
+        </persistence-unit-defaults>
+    </persistence-unit-metadata>
+    <package>examples.model</package>
+
+    <table-generator name="empGen" table="ID_GEN" pk-column-value="EmpId"/>
+
+    <named-query name="Employee.findAll">
+        <query>SELECT e FROM Employee e</query>
+        <hint name="cacheUsage" value="DoNotUseCache"/>
+    </named-query>
+
+
+    <entity class="Employee">
+        <table name="EMP"/>
+        <secondary-table name="EMP_ADDRESS">
+            <primary-key-join-column name="EMP_ID"/>
+        </secondary-table>
+
+        <inheritance strategy="SINGLE_TABLE"/>
+        <discriminator-column name="TYPE"/>
+
+        <!-- pre-persist method-name="initTransientState"/>
+        <post-load method-name="initTransientState"/ -->
+
+        <attributes>
+            <id name="id">
+                <generated-value strategy="TABLE" generator="EmpGen"/>
+                <table-generator name="EmpGen" table="ID_GEN" pk-column-name="GEN_NAME" 
+                                 value-column-name="GEN_VAL" pk-column-value="Emp_Gen"/>
+                <sequence-generator name="empSeq" sequence-name="mySeq"/>
+            </id>
+            <basic name="name"/>
+            <basic name="startDate">
+                <temporal>DATE</temporal>
+            </basic>
+
+            <many-to-one name="manager">
+                <join-column name="MGR"/>
+            </many-to-one>
+            <many-to-one name="department"/>
+            <one-to-many name="directs" mapped-by="manager">
+                <order-by/>
+            </one-to-many>
+            <one-to-one name="parkingSpace" mapped-by="employee"/>
+            <many-to-many name="projects">
+                <map-key name="name"/>
+                <join-table name="EMP_PRJ">
+                    <join-column name="EMP_ID"/>
+                    <inverse-join-column name="PROJ_ID"/>
+                </join-table>
+            </many-to-many>
+
+            <embedded name="address">
+                <attribute-override name="street">
+                    <column name="STREET" table="EMP_ADDRESS"/>
+                </attribute-override>
+                <attribute-override name="city">
+                    <column name="CITY" table="EMP_ADDRESS"/>
+                </attribute-override>
+                <attribute-override name="state">
+                    <column name="PROV" table="EMP_ADDRESS"/>
+                </attribute-override>
+                <attribute-override name="zip">
+                    <column name="PCODE" table="EMP_ADDRESS"/>
+                </attribute-override>
+            </embedded>
+        </attributes>
+    </entity>
+
+    <entity class="FullTimeEmployee">
+        <discriminator-value>FT</discriminator-value>
+        <attributes>
+            <basic name="pension"/>
+            <basic name="salary"/>
+        </attributes>
+    </entity >
+
+    <entity class="PartTimeEmployee">
+        <discriminator-value>PT</discriminator-value>
+        <attributes>
+            <basic name="hourlyRate"/>
+        </attributes>
+    </entity >
+
+    <entity class="ParkingSpace" metadata-complete="true" access="PROPERTY">
+        <attributes>
+            <id name="id"/>
+            <basic name="lot"/>
+            <basic name="location"/>
+            <one-to-one name="employee">
+                <primary-key-join-column/>
+            </one-to-one>
+        </attributes>
+    </entity>
+
+    <entity class="Department">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+            <one-to-many name="employees" mapped-by="department"/>
+        </attributes>
+    </entity>
+
+    <entity class="Project">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+            <basic name="name"/>
+            <many-to-many name="employees" mapped-by="projects"/>
+        </attributes>
+    </entity>
+
+    <embeddable class="Address">
+        <attributes>
+            <basic name="street"/>
+            <basic name="city"/>
+            <basic name="state"/>
+            <basic name="zip"/>
+        </attributes>
+    </embeddable>
+
+</entity-mappings>

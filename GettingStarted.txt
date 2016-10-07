@@ -1,0 +1,13 @@
+- Assume you've downloaded the examples and unzipped them to <EXAMPLES_HOME>.
+
+- download a copy of glassfish from https://glassfish.dev.java.net/public/downloadsindex.html
+
+- copy the downloaded .jar file to <EXAMPLES_HOME>
+
+- edit <EXAMPLES_HOME>/config/setenv.bat to point to your JDK 5.0 directory. The JDK is available for download at http://java.sun.com/j2se/1.5.0/download.jsp
+
+- edit <EXAMPLES_HOME>/config/common.properties and set the EXAMPLES_HOME variable (location where you unzipped the examples jar).  NOTE: make sure you use '/' and NOT '\'
+
+- run <EXAMPLES_HOME>/bin/installserver.bat to install glassfish.  Read and accept the licensing agreement that pops up.
+
+- you can now run the examples.  Double-click <EXAMPLES_HOME>/examples/examples.html to get started

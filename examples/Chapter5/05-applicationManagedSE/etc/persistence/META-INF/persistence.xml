@@ -1,0 +1,13 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+    <persistence-unit name="EmployeeService" transaction-type="RESOURCE_LOCAL">
+        <class>examples.model.Employee</class>
+        <properties>
+            <property name="toplink.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+            <property name="toplink.jdbc.url" value="jdbc:derby://localhost:1527/applicationManagedSE;create=true"/>
+            <property name="toplink.jdbc.user" value="APP"/>
+            <property name="toplink.jdbc.password" value="APP"/>
+            <!-- enable this property to see SQL and other logging -->
+            <!-- property name="toplink.logging.level" value="FINE"/ -->
+        </properties>
+    </persistence-unit>
+</persistence>
